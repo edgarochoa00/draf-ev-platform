@@ -469,35 +469,6 @@ export default function MatchDetailModal({
                     <span className="badge draf-badge" style={{ fontSize: '0.68rem' }}>{m.badge || "90'"}</span>
                   </div>
 
-                  {/* Over/Under Total Line Selector if applicable */}
-                  {isTotal && (
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px', background: '#18181C', padding: '8px 16px', borderRadius: '30px', width: 'fit-content' }}>
-                      {['2.5', '3.5', '4.5'].map(lineVal => (
-                        <button
-                          key={lineVal}
-                          style={{
-                            background: 'none',
-                            border: 'none',
-                            color: selectedTotalLine === lineVal ? '#FFFFFF' : '#A1A1AA',
-                            fontSize: '1rem',
-                            fontWeight: selectedTotalLine === lineVal ? 900 : 600,
-                            cursor: 'pointer',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            gap: '2px'
-                          }}
-                          onClick={() => setSelectedTotalLine(lineVal)}
-                        >
-                          {lineVal}
-                          {selectedTotalLine === lineVal && (
-                            <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: '#FFFFFF' }} />
-                          )}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-
                   {/* Odds Buttons Grid */}
                   <div style={{ display: 'grid', gridTemplateColumns: `repeat(${Math.min(m.picks.length, 3)}, 1fr)`, gap: '10px' }}>
                     {m.picks.map(pick => {

@@ -174,13 +174,32 @@ export default function Home() {
 
   // ── Ticket management ───────────────────────────────────────────────────
   const addToTicket = useCallback((selection: any): boolean => {
-    const alreadyIn = ticketSelections.some(s => s.event_id === selection.event_id);
-    if (alreadyIn) return false;
+    const matchKey = selection.match_name || selection.event_id?.split('__')[0] || 'default_match';
+    const categoryKey = selection.market_category || selection.category_key || (selection.selection_id ? selection.selection_id.replace(/_(home|away|draw|over|under|10|21|11|01|1X|X2|12).*$/, '') : selection.event_id);
 
-    setTicketSelections(prev => [...prev, selection]);
-    setToast(`${selection.selection_name.split(' (')[0]} añadido al ticket`);
+    setTicketSelections(prev => {
+      // Is this exact pick already in the ticket? Toggle off!
+      const exactSame = prev.some(s => s.selection_id === selection.selection_id || s.event_id === selection.event_id);
+      if (exactSame) {
+        setToast(`Removido del ticket`);
+        return prev.filter(s => s.selection_id !== selection.selection_id && s.event_id !== selection.event_id);
+      }
+
+      // Filter out any previous pick from the SAME match AND SAME market category
+      const filtered = prev.filter(s => {
+        const sMatch = s.match_name || s.event_id?.split('__')[0] || 'default_match';
+        const sCat = s.market_category || s.category_key || (s.selection_id ? s.selection_id.replace(/_(home|away|draw|over|under|10|21|11|01|1X|X2|12).*$/, '') : s.event_id);
+        if (sMatch === matchKey && sCat === categoryKey) {
+          return false;
+        }
+        return true;
+      });
+
+      setToast(`Añadido al ticket`);
+      return [...filtered, selection];
+    });
     return true;
-  }, [ticketSelections]);
+  }, []);
 
   const removeFromTicket = useCallback((id: string) => {
     setTicketSelections(prev => prev.filter(s => s.event_id !== id));
