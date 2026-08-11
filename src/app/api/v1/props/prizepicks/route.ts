@@ -19,67 +19,105 @@ const ESPN_ENDPOINTS: Record<string, string[]> = {
   ],
 };
 
-// Real player databases per team to match today's live events
-const TEAM_ROSTERS: Record<string, { name: string; pos: string; stat: string; line: number; avatar: string }[]> = {
-  // ── MLB TEAMS ─────────────────────────────────────────────────────────────
-  DET: [
-    { name: 'Riley Greene', pos: 'OF', stat: 'Bases Totales', line: 1.5, avatar: 'https://a.espncdn.com/i/headshots/mlb/players/full/41178.png' },
-    { name: 'Tarik Skubal', pos: 'P', stat: 'Ponches (Strikeouts)', line: 6.5, avatar: 'https://a.espncdn.com/i/headshots/mlb/players/full/41285.png' },
-    { name: 'Spencer Torkelson', pos: '1B', stat: 'Hit + Carrera + Impulsada', line: 1.5, avatar: 'https://a.espncdn.com/i/headshots/mlb/players/full/42404.png' },
-  ],
-  CLE: [
-    { name: 'José Ramírez', pos: '3B', stat: 'Bases Totales', line: 1.5, avatar: 'https://a.espncdn.com/i/headshots/mlb/players/full/32801.png' },
-    { name: 'Steven Kwan', pos: 'OF', stat: 'Hits Totales', line: 1.5, avatar: 'https://a.espncdn.com/i/headshots/mlb/players/full/41235.png' },
-    { name: 'Josh Naylor', pos: '1B', stat: 'Carreras Impulsadas', line: 0.5, avatar: 'https://a.espncdn.com/i/headshots/mlb/players/full/35054.png' },
-  ],
-  LAD: [
-    { name: 'Shohei Ohtani', pos: 'DH', stat: 'Bases Totales', line: 1.5, avatar: 'https://a.espncdn.com/i/headshots/mlb/players/full/39832.png' },
-    { name: 'Mookie Betts', pos: 'SS', stat: 'Carreras Anotadas', line: 0.5, avatar: 'https://a.espncdn.com/i/headshots/mlb/players/full/33039.png' },
-    { name: 'Freddie Freeman', pos: '1B', stat: 'Hits Totales', line: 1.5, avatar: 'https://a.espncdn.com/i/headshots/mlb/players/full/30193.png' },
-  ],
-  NYY: [
-    { name: 'Aaron Judge', pos: 'OF', stat: 'Jonrones', line: 0.5, avatar: 'https://a.espncdn.com/i/headshots/mlb/players/full/33192.png' },
-    { name: 'Juan Soto', pos: 'OF', stat: 'Hit + Carrera + Impulsada', line: 2.5, avatar: 'https://a.espncdn.com/i/headshots/mlb/players/full/36969.png' },
-    { name: 'Giancarlo Stanton', pos: 'DH', stat: 'Bases Totales', line: 1.5, avatar: 'https://a.espncdn.com/i/headshots/mlb/players/full/30583.png' },
-  ],
-  HOU: [
-    { name: 'Jose Altuve', pos: '2B', stat: 'Hits Totales', line: 1.5, avatar: 'https://a.espncdn.com/i/headshots/mlb/players/full/31084.png' },
-    { name: 'Yordan Alvarez', pos: 'DH', stat: 'Bases Totales', line: 1.5, avatar: 'https://a.espncdn.com/i/headshots/mlb/players/full/36018.png' },
-    { name: 'Framber Valdez', pos: 'P', stat: 'Ponches (Strikeouts)', line: 5.5, avatar: 'https://a.espncdn.com/i/headshots/mlb/players/full/39818.png' },
-  ],
-  MIA: [
-    { name: 'Jazz Chisholm Jr.', pos: 'OF', stat: 'Bases Robadas', line: 0.5, avatar: 'https://a.espncdn.com/i/headshots/mlb/players/full/39846.png' },
-    { name: 'Bryan De La Cruz', pos: 'OF', stat: 'Hits Totales', line: 0.5, avatar: 'https://a.espncdn.com/i/headshots/mlb/players/full/36021.png' },
-  ],
-  PIT: [
-    { name: 'Oneil Cruz', pos: 'SS', stat: 'Bases Totales', line: 1.5, avatar: 'https://a.espncdn.com/i/headshots/mlb/players/full/39839.png' },
-    { name: 'Paul Skenes', pos: 'P', stat: 'Ponches (Strikeouts)', line: 7.5, avatar: 'https://a.espncdn.com/i/headshots/mlb/players/full/4718428.png' },
-  ],
+type PlayerProp = {
+  name: string;
+  pos: string;
+  stat: string;
+  line: number;
+  avatar: string;
+};
 
-  // ── SOCCER TEAMS ──────────────────────────────────────────────────────────
-  TAL: [
-    { name: 'Ramón Sosa', pos: 'DEL', stat: 'Remates a Puerta', line: 1.5, avatar: 'https://a.espncdn.com/i/headshots/soccer/players/full/294821.png' },
-    { name: 'Nahuel Bustos', pos: 'DEL', stat: 'Remates Totales', line: 2.5, avatar: 'https://a.espncdn.com/i/headshots/soccer/players/full/237691.png' },
-    { name: 'Federico Girotti', pos: 'DEL', stat: 'Goles Anotados', line: 0.5, avatar: 'https://a.espncdn.com/i/headshots/soccer/players/full/285741.png' },
-  ],
-  LAN: [
-    { name: 'Walter Bou', pos: 'DEL', stat: 'Goles Anotados', line: 0.5, avatar: 'https://a.espncdn.com/i/headshots/soccer/players/full/226191.png' },
-    { name: 'Marcelino Moreno', pos: 'MED', stat: 'Pases Completados', line: 34.5, avatar: 'https://a.espncdn.com/i/headshots/soccer/players/full/238121.png' },
-    { name: 'Eduardo Salvio', pos: 'DEL', stat: 'Remates a Puerta', line: 1.5, avatar: 'https://a.espncdn.com/i/headshots/soccer/players/full/128391.png' },
-  ],
-  ARS: [
-    { name: 'Bukayo Saka', pos: 'DEL', stat: 'Remates a Puerta', line: 1.5, avatar: 'https://a.espncdn.com/i/headshots/soccer/players/full/264521.png' },
-    { name: 'Martin Ødegaard', pos: 'MED', stat: 'Pases Clave', line: 2.5, avatar: 'https://a.espncdn.com/i/headshots/soccer/players/full/204891.png' },
-    { name: 'Kai Havertz', pos: 'DEL', stat: 'Remates Totales', line: 2.5, avatar: 'https://a.espncdn.com/i/headshots/soccer/players/full=235491.png' },
-  ],
-  AME: [
-    { name: 'Henry Martín', pos: 'DEL', stat: 'Goles Anotados', line: 0.5, avatar: 'https://a.espncdn.com/i/headshots/soccer/players/full/210391.png' },
-    { name: 'Álvaro Fidalgo', pos: 'MED', stat: 'Pases Completados', line: 48.5, avatar: 'https://a.espncdn.com/i/headshots/soccer/players/full/239012.png' },
-  ],
-  CHI: [
-    { name: 'Roberto Alvarado', pos: 'DEL', stat: 'Remates a Puerta', line: 1.5, avatar: 'https://a.espncdn.com/i/headshots/soccer/players/full/229014.png' },
-    { name: 'Erick Gutiérrez', pos: 'MED', stat: 'Faltas Recibidas', line: 1.5, avatar: 'https://a.espncdn.com/i/headshots/soccer/players/full/210450.png' },
-  ],
+// Player rosters strictly categorized per sport to prevent sport cross-contamination
+const SPORT_ROSTERS: Record<string, Record<string, PlayerProp[]>> = {
+  SOCCER: {
+    TAL: [
+      { name: 'Ramón Sosa', pos: 'DEL', stat: 'Remates a Puerta', line: 1.5, avatar: 'https://a.espncdn.com/i/headshots/soccer/players/full/294821.png' },
+      { name: 'Nahuel Bustos', pos: 'DEL', stat: 'Remates Totales', line: 2.5, avatar: 'https://a.espncdn.com/i/headshots/soccer/players/full/237691.png' },
+      { name: 'Federico Girotti', pos: 'DEL', stat: 'Goles Anotados', line: 0.5, avatar: 'https://a.espncdn.com/i/headshots/soccer/players/full/285741.png' },
+    ],
+    LAN: [
+      { name: 'Walter Bou', pos: 'DEL', stat: 'Goles Anotados', line: 0.5, avatar: 'https://a.espncdn.com/i/headshots/soccer/players/full/226191.png' },
+      { name: 'Marcelino Moreno', pos: 'MED', stat: 'Pases Completados', line: 34.5, avatar: 'https://a.espncdn.com/i/headshots/soccer/players/full/238121.png' },
+      { name: 'Eduardo Salvio', pos: 'DEL', stat: 'Remates a Puerta', line: 1.5, avatar: 'https://a.espncdn.com/i/headshots/soccer/players/full/128391.png' },
+    ],
+    ARS: [
+      { name: 'Bukayo Saka', pos: 'DEL', stat: 'Remates a Puerta', line: 1.5, avatar: 'https://a.espncdn.com/i/headshots/soccer/players/full/264521.png' },
+      { name: 'Martin Ødegaard', pos: 'MED', stat: 'Pases Clave', line: 2.5, avatar: 'https://a.espncdn.com/i/headshots/soccer/players/full/204891.png' },
+      { name: 'Kai Havertz', pos: 'DEL', stat: 'Remates Totales', line: 2.5, avatar: 'https://a.espncdn.com/i/headshots/soccer/players/full/235491.png' },
+    ],
+    AME: [
+      { name: 'Henry Martín', pos: 'DEL', stat: 'Goles Anotados', line: 0.5, avatar: 'https://a.espncdn.com/i/headshots/soccer/players/full/210391.png' },
+      { name: 'Álvaro Fidalgo', pos: 'MED', stat: 'Pases Completados', line: 48.5, avatar: 'https://a.espncdn.com/i/headshots/soccer/players/full/239012.png' },
+    ],
+    CHI: [
+      { name: 'Roberto Alvarado', pos: 'DEL', stat: 'Remates a Puerta', line: 1.5, avatar: 'https://a.espncdn.com/i/headshots/soccer/players/full/229014.png' },
+      { name: 'Erick Gutiérrez', pos: 'MED', stat: 'Faltas Recibidas', line: 1.5, avatar: 'https://a.espncdn.com/i/headshots/soccer/players/full/210450.png' },
+    ],
+    RMD: [
+      { name: 'Kylian Mbappé', pos: 'DEL', stat: 'Goles Anotados', line: 0.5, avatar: 'https://a.espncdn.com/i/headshots/soccer/players/full/226597.png' },
+      { name: 'Vinícius Júnior', pos: 'DEL', stat: 'Remates a Puerta', line: 1.5, avatar: 'https://a.espncdn.com/i/headshots/soccer/players/full/238031.png' },
+      { name: 'Jude Bellingham', pos: 'MED', stat: 'Pases Clave', line: 2.5, avatar: 'https://a.espncdn.com/i/headshots/soccer/players/full/258525.png' },
+    ],
+  },
+
+  MLB: {
+    DET: [
+      { name: 'Riley Greene', pos: 'OF', stat: 'Bases Totales', line: 1.5, avatar: 'https://a.espncdn.com/i/headshots/mlb/players/full/41178.png' },
+      { name: 'Tarik Skubal', pos: 'P', stat: 'Ponches (Strikeouts)', line: 6.5, avatar: 'https://a.espncdn.com/i/headshots/mlb/players/full/41285.png' },
+      { name: 'Spencer Torkelson', pos: '1B', stat: 'Hit + Carrera + Impulsada', line: 1.5, avatar: 'https://a.espncdn.com/i/headshots/mlb/players/full/42404.png' },
+    ],
+    CLE: [
+      { name: 'José Ramírez', pos: '3B', stat: 'Bases Totales', line: 1.5, avatar: 'https://a.espncdn.com/i/headshots/mlb/players/full/32801.png' },
+      { name: 'Steven Kwan', pos: 'OF', stat: 'Hits Totales', line: 1.5, avatar: 'https://a.espncdn.com/i/headshots/mlb/players/full/41235.png' },
+      { name: 'Josh Naylor', pos: '1B', stat: 'Carreras Impulsadas', line: 0.5, avatar: 'https://a.espncdn.com/i/headshots/mlb/players/full/35054.png' },
+    ],
+    LAD: [
+      { name: 'Shohei Ohtani', pos: 'DH', stat: 'Bases Totales', line: 1.5, avatar: 'https://a.espncdn.com/i/headshots/mlb/players/full/39832.png' },
+      { name: 'Mookie Betts', pos: 'SS', stat: 'Carreras Anotadas', line: 0.5, avatar: 'https://a.espncdn.com/i/headshots/mlb/players/full/33039.png' },
+      { name: 'Freddie Freeman', pos: '1B', stat: 'Hits Totales', line: 1.5, avatar: 'https://a.espncdn.com/i/headshots/mlb/players/full/30193.png' },
+    ],
+    NYY: [
+      { name: 'Aaron Judge', pos: 'OF', stat: 'Jonrones', line: 0.5, avatar: 'https://a.espncdn.com/i/headshots/mlb/players/full/33192.png' },
+      { name: 'Juan Soto', pos: 'OF', stat: 'Hit + Carrera + Impulsada', line: 2.5, avatar: 'https://a.espncdn.com/i/headshots/mlb/players/full/36969.png' },
+      { name: 'Giancarlo Stanton', pos: 'DH', stat: 'Bases Totales', line: 1.5, avatar: 'https://a.espncdn.com/i/headshots/mlb/players/full/30583.png' },
+    ],
+    HOU: [
+      { name: 'Jose Altuve', pos: '2B', stat: 'Hits Totales', line: 1.5, avatar: 'https://a.espncdn.com/i/headshots/mlb/players/full/31084.png' },
+      { name: 'Yordan Alvarez', pos: 'DH', stat: 'Bases Totales', line: 1.5, avatar: 'https://a.espncdn.com/i/headshots/mlb/players/full/36018.png' },
+    ],
+  },
+
+  NBA: {
+    LAL: [
+      { name: 'LeBron James', pos: 'SF', stat: 'Puntos', line: 24.5, avatar: 'https://a.espncdn.com/i/headshots/nba/players/full/1966.png' },
+      { name: 'Anthony Davis', pos: 'PF', stat: 'Rebotes', line: 12.5, avatar: 'https://a.espncdn.com/i/headshots/nba/players/full/6583.png' },
+    ],
+    GSW: [
+      { name: 'Stephen Curry', pos: 'PG', stat: 'Triples Anotados', line: 4.5, avatar: 'https://a.espncdn.com/i/headshots/nba/players/full/3975.png' },
+    ],
+    DAL: [
+      { name: 'Luka Dončić', pos: 'PG', stat: 'Asistencias', line: 8.5, avatar: 'https://a.espncdn.com/i/headshots/nba/players/full/3945274.png' },
+    ],
+    BOS: [
+      { name: 'Jayson Tatum', pos: 'SF', stat: 'Puntos + Rebotes', line: 35.5, avatar: 'https://a.espncdn.com/i/headshots/nba/players/full/4065648.png' },
+    ],
+    DEN: [
+      { name: 'Nikola Jokić', pos: 'C', stat: 'Asistencias', line: 9.5, avatar: 'https://a.espncdn.com/i/headshots/nba/players/full/3112335.png' },
+    ],
+  },
+
+  NFL: {
+    KC: [
+      { name: 'Patrick Mahomes', pos: 'QB', stat: 'Yardas por Pase', line: 265.5, avatar: 'https://a.espncdn.com/i/headshots/nfl/players/full/3139477.png' },
+      { name: 'Travis Kelce', pos: 'TE', stat: 'Recepciones', line: 6.5, avatar: 'https://a.espncdn.com/i/headshots/nfl/players/full/15847.png' },
+    ],
+    BUF: [
+      { name: 'Josh Allen', pos: 'QB', stat: 'Pases de Touchdown', line: 1.5, avatar: 'https://a.espncdn.com/i/headshots/nfl/players/full/3918298.png' },
+    ],
+    MIA: [
+      { name: 'Tyreek Hill', pos: 'WR', stat: 'Yardas por Recepción', line: 85.5, avatar: 'https://a.espncdn.com/i/headshots/nfl/players/full/3116365.png' },
+    ],
+  },
 };
 
 function deterministicProb(seed: string): number {
@@ -94,12 +132,15 @@ function deterministicProb(seed: string): number {
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const sportParam = (searchParams.get('sport') || 'MLB').toUpperCase();
-  const endpoints = ESPN_ENDPOINTS[sportParam] || ESPN_ENDPOINTS.MLB;
+  const rawSport = (searchParams.get('sport') || 'MLB').toUpperCase();
+  const sportKey = SPORT_ROSTERS[rawSport] ? rawSport : 'SOCCER';
+
+  const endpoints = ESPN_ENDPOINTS[sportKey] || ESPN_ENDPOINTS.SOCCER;
+  const targetRosters = SPORT_ROSTERS[sportKey] || SPORT_ROSTERS.SOCCER;
 
   const liveTeamAbbrevs = new Set<string>();
 
-  // 1. Fetch live active scoreboards from ESPN for the requested sport
+  // 1. Fetch live active scoreboards from ESPN for the requested sport ONLY
   try {
     const fetchPromises = endpoints.map(url => fetch(url, { next: { revalidate: 30 } }).then(r => r.ok ? r.json() : null).catch(() => null));
     const results = await Promise.all(fetchPromises);
@@ -119,17 +160,16 @@ export async function GET(request: Request) {
     console.error('ESPN fetch error:', err);
   }
 
-  // 2. Extract players from active live teams
+  // 2. Extract players ONLY from the selected sport's team rosters
   const generatedProps: any[] = [];
   let propCounter = 1;
 
-  for (const [abbrev, roster] of Object.entries(TEAM_ROSTERS)) {
-    // Check if team is playing in live events OR fallback if live list is small
+  for (const [abbrev, roster] of Object.entries(targetRosters)) {
     const isPlaying = liveTeamAbbrevs.size === 0 || liveTeamAbbrevs.has(abbrev);
-    if (!isPlaying && generatedProps.length >= 8) continue;
+    if (!isPlaying && generatedProps.length >= 10) continue;
 
     for (const player of roster) {
-      const propId = `pp_${sportParam.toLowerCase()}_${propCounter++}`;
+      const propId = `pp_${sportKey.toLowerCase()}_${propCounter++}`;
       const seed = `${player.name}_${player.stat}_${player.line}`;
       const probOver = deterministicProb(`${seed}_over`);
       const probUnder = Number((1.0 - probOver).toFixed(4));
@@ -145,7 +185,7 @@ export async function GET(request: Request) {
         team: abbrev,
         player_image: player.avatar,
         avatar: player.avatar,
-        sport: sportParam,
+        sport: sportKey,
         stat_type: player.stat,
         line_value: player.line,
         line_score: player.line,
@@ -178,7 +218,7 @@ export async function GET(request: Request) {
 
   return NextResponse.json({
     status: 'success',
-    sport: sportParam,
+    sport: sportKey,
     count: generatedProps.length,
     projections: generatedProps,
   });
