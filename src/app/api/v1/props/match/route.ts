@@ -10,34 +10,6 @@ function deterministicProb(seed: string): number {
   return Number((0.52 + normalized * 0.12).toFixed(4));
 }
 
-const MATCH_PLAYERS_DB: Record<string, Record<string, any[]>> = {
-  Soccer: {
-    strikers: [
-      { stat: 'Remates a Puerta', line: 1.5 },
-      { stat: 'Goles Anotados', line: 0.5 },
-      { stat: 'Remates Totales', line: 2.5 },
-    ],
-    midfielders: [
-      { stat: 'Pases Completados', line: 34.5 },
-      { stat: 'Faltas Recibidas', line: 1.5 },
-    ],
-  },
-  MLB: {
-    hitters: [
-      { stat: 'Bases Totales', line: 1.5 },
-      { stat: 'Hit + Carrera + Impulsada', line: 1.5 },
-      { stat: 'Hits Totales', line: 0.5 },
-    ],
-  },
-  NBA: {
-    starters: [
-      { stat: 'Puntos', line: 18.5 },
-      { stat: 'Rebotes', line: 6.5 },
-      { stat: 'Asistencias', line: 4.5 },
-    ],
-  },
-};
-
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const homeTeam = searchParams.get('home_team') || 'Home';
@@ -49,18 +21,19 @@ export async function GET(request: Request) {
   const props: any[] = [];
 
   const homePlayers = [
-    { name: `${homeTeam} Delantero 1`, team: homeAbbrev },
-    { name: `${homeTeam} Mediocampista`, team: homeAbbrev },
+    { name: `${homeTeam} Delantero Estrella`, pos: 'DEL', team: homeAbbrev },
+    { name: `${homeTeam} Creador de Juego`, pos: 'MED', team: homeAbbrev },
   ];
   const awayPlayers = [
-    { name: `${awayTeam} Delantero 1`, team: awayAbbrev },
-    { name: `${awayTeam} Creador`, team: awayAbbrev },
+    { name: `${awayTeam} Atacante Principal`, pos: 'DEL', team: awayAbbrev },
+    { name: `${awayTeam} Mediocampista Clave`, pos: 'MED', team: awayAbbrev },
   ];
 
   [...homePlayers, ...awayPlayers].forEach((player, idx) => {
     const statName = sport === 'Soccer' ? (idx % 2 === 0 ? 'Remates a Puerta' : 'Pases Completados') : (sport === 'MLB' ? 'Bases Totales' : 'Puntos');
     const lineVal = sport === 'Soccer' ? (idx % 2 === 0 ? 1.5 : 34.5) : (sport === 'MLB' ? 1.5 : 18.5);
 
+    const propId = `match_prop_${homeAbbrev}_${awayAbbrev}_${idx + 1}`;
     const seed = `${player.name}_${statName}_${lineVal}`;
     const probOver = deterministicProb(`${seed}_over`);
     const probUnder = Number((1.0 - probOver).toFixed(4));
@@ -75,16 +48,34 @@ export async function GET(request: Request) {
       : 'https://a.espncdn.com/i/headshots/soccer/players/full/45843.png';
 
     props.push({
-      prop_id: seed,
-      player_id: seed,
+      prop_id: propId,
+      player_id: propId,
       player_name: player.name,
+      player_position: player.pos,
       team: player.team,
       player_image: avatarUrl,
       avatar: avatarUrl,
       player_avatar: avatarUrl,
       sport: sport,
       stat_type: statName,
+      line_value: lineVal,
       line_score: lineVal,
+      over_option: {
+        selection_id: `${propId}_OVER`,
+        label: `Más de ${lineVal}`,
+        abbrev: `OVER ${lineVal}`,
+        decimal_odds: 1.91,
+        model_prob: probOver,
+        ev_percent: evOver,
+      },
+      under_option: {
+        selection_id: `${propId}_UNDER`,
+        label: `Menos de ${lineVal}`,
+        abbrev: `UNDER ${lineVal}`,
+        decimal_odds: 1.91,
+        model_prob: probUnder,
+        ev_percent: evUnder,
+      },
       over_odds: 1.91,
       under_odds: 1.91,
       prob_over: probOver,

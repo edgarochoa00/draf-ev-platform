@@ -184,9 +184,15 @@ export default function MatchDetailModal({
   };
 
   const handleToggleProp = (proj: any, isOver: boolean) => {
-    const opt = isOver ? proj.over_option : proj.under_option;
-    const selId = `${proj.prop_id}_${isOver ? 'OVER' : 'UNDER'}`;
-    const selName = `${proj.player_name} (${opt.label}) - ${proj.stat_type}`;
+    const opt = (isOver ? proj.over_option : proj.under_option) || {
+      label: isOver ? `Más de ${proj.line_value || proj.line_score || 1.5}` : `Menos de ${proj.line_value || proj.line_score || 1.5}`,
+      decimal_odds: isOver ? (proj.over_odds || 1.91) : (proj.under_odds || 1.91),
+      model_prob: isOver ? (proj.prob_over || 0.55) : (proj.prob_under || 0.45),
+      ev_percent: isOver ? (proj.ev_over || 11.2) : (proj.ev_under || -19.7),
+    };
+    const propId = proj.prop_id || proj.player_id || 'prop_1';
+    const selId = `${propId}_${isOver ? 'OVER' : 'UNDER'}`;
+    const selName = `${proj.player_name} (${opt.label}) - ${proj.stat_type || 'Stat'}`;
 
     const payload = {
       event_id: `${event.event_id}__${selId}`,
@@ -194,9 +200,9 @@ export default function MatchDetailModal({
       league_name: event.league_name,
       match_name: event.match_name,
       selection_name: selName,
-      decimal_odds: opt.decimal_odds,
-      model_prob: opt.model_prob,
-      ev_percent: opt.ev_percent,
+      decimal_odds: opt.decimal_odds || 1.91,
+      model_prob: opt.model_prob || 0.55,
+      ev_percent: opt.ev_percent || 0,
       selection_id: selId,
     };
 
@@ -379,14 +385,14 @@ export default function MatchDetailModal({
                           }}
                         >
                           <span style={{ fontSize: '0.72rem', color: isOverPos ? '#10B981' : '#A1A1AA' }}>
-                            MÁS DE {proj.line_value}
+                            MÁS DE {proj.line_value || proj.line_score}
                           </span>
                           <span style={{ fontSize: '1rem', color: isOverPos ? '#10B981' : '#FFF', fontWeight: 900 }}>
-                            {proj.over_option.decimal_odds}x
+                            {(proj.over_option?.decimal_odds || proj.over_odds || 1.91).toFixed(2)}x
                           </span>
                           {isOverPos && (
                             <span style={{ fontSize: '0.65rem', fontWeight: 800, color: '#10B981', background: 'rgba(16,185,129,0.15)', padding: '1px 6px', borderRadius: '4px', marginTop: '2px' }}>
-                              +{proj.over_option.ev_percent.toFixed(1)}% EV
+                              +{(proj.over_option?.ev_percent ?? proj.ev_over ?? 0).toFixed(1)}% EV
                             </span>
                           )}
                           {isOverSel && (
@@ -423,14 +429,14 @@ export default function MatchDetailModal({
                           }}
                         >
                           <span style={{ fontSize: '0.72rem', color: isUnderPos ? '#10B981' : '#A1A1AA' }}>
-                            MENOS DE {proj.line_value}
+                            MENOS DE {proj.line_value || proj.line_score}
                           </span>
                           <span style={{ fontSize: '1rem', color: isUnderPos ? '#10B981' : '#FFF', fontWeight: 900 }}>
-                            {proj.under_option.decimal_odds}x
+                            {(proj.under_option?.decimal_odds || proj.under_odds || 1.91).toFixed(2)}x
                           </span>
                           {isUnderPos && (
                             <span style={{ fontSize: '0.65rem', fontWeight: 800, color: '#10B981', background: 'rgba(16,185,129,0.15)', padding: '1px 6px', borderRadius: '4px', marginTop: '2px' }}>
-                              +{proj.under_option.ev_percent.toFixed(1)}% EV
+                              +{(proj.under_option?.ev_percent ?? proj.ev_under ?? 0).toFixed(1)}% EV
                             </span>
                           )}
                           {isUnderSel && (
