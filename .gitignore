@@ -1,31 +1,47 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+*.log
+
+# env files
+.env*.local
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
 # Python
 __pycache__/
 *.py[cod]
 *.egg-info/
-.env
 venv/
 .venv/
-*.pyo
-*.pyc
+backend/venv/
 
-# Next.js / Node
-frontend/node_modules/
-frontend/.next/
-frontend/.turbo/
-frontend/dist/
-frontend/build/
-frontend/.env.local
-frontend/.env*.local
-node_modules/
+# Firebase & Secrets
+*.json
+!package.json
+!package-lock.json
+!tsconfig.json
+!vercel.json
 
-# DB & misc
-*.db
-*.sqlite3
-*.log
-.DS_Store
-.idea/
-.vscode/
-
-# Training data (large files)
+# Training data / scratch
 codigo_entrenamiento_parleys/
-prueba-dde32-firebase-adminsdk-fbsvc-aeb12f9889.json
