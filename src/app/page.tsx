@@ -236,10 +236,9 @@ export default function Home() {
       if (!match) return false;
     }
 
-    if (evFilter === 'positive' && evt.ev_percent <= 0) return false;
-    if (evFilter === '3percent' && evt.ev_percent < 3)  return false;
-    if (evFilter === '5percent' && evt.ev_percent < 5)  return false;
-
+    if (evFilter === '5percent'  && evt.ev_percent < 5)  return false;
+    if (evFilter === '15percent' && evt.ev_percent < 15) return false;
+    if (evFilter === '30percent' && evt.ev_percent < 30) return false;
     return true;
   });
 
@@ -340,12 +339,12 @@ export default function Home() {
 
               {/* EV Advantage Filters */}
               <div style={{ display: 'flex', gap: '8px', marginBottom: '24px', alignItems: 'center', flexWrap: 'wrap' }}>
-                <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 600 }}>Filtro Ventaja:</span>
+                <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 600 }}>Filtro Ventaja IA:</span>
                 {[
-                  { key: 'positive', label: 'Solo +EV (>0%)' },
-                  { key: '3percent', label: '> +3% EV'       },
-                  { key: '5percent', label: '> +5% EV'       },
-                  { key: 'all',      label: 'Mostrar Todos'  },
+                  { key: 'all',       label: 'Mostrar Todos'  },
+                  { key: '5percent',  label: '> +5% EV (Básica)' },
+                  { key: '15percent', label: '> +15% EV (Alta Ventaja)' },
+                  { key: '30percent', label: '⚡ > +30% EV (Super Cuotas)' },
                 ].map(({ key, label }) => (
                   <button
                     key={key}
@@ -353,7 +352,7 @@ export default function Home() {
                     onClick={() => setEvFilter(key)}
                     style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}
                   >
-                    {key === 'positive' && <ZapIcon size={12} color="var(--ev-positive)" />}
+                    {key === '30percent' && <ZapIcon size={12} color="var(--ev-positive)" />}
                     {label}
                   </button>
                 ))}
