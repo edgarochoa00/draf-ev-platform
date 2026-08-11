@@ -126,10 +126,13 @@ export default function ParlayTicket({
       style={{ 
         position: 'sticky', 
         top: '90px',
+        maxHeight: 'calc(100vh - 110px)',
+        overflowY: 'auto',
         border: '1px solid rgba(124, 58, 237, 0.25)',
         background: '#121215',
         borderRadius: '22px',
-        boxShadow: '0 20px 50px rgba(0, 0, 0, 0.6)'
+        boxShadow: '0 20px 50px rgba(0, 0, 0, 0.6)',
+        paddingRight: '12px'
       }}
     >
       {/* ── Ticket Header ─────────────────────────────────────────────── */}

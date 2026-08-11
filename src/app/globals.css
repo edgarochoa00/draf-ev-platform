@@ -39,6 +39,23 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* ── Custom Dark Scrollbars ── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(18, 18, 21, 0.6);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(124, 58, 237, 0.4);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--draf-purple);
+}
+
 /* ── Site Header & Responsive Navbar ── */
 .site-header {
   border-bottom: 1px solid var(--glass-border);
