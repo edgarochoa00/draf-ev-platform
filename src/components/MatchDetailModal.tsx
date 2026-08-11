@@ -324,8 +324,8 @@ export default function MatchDetailModal({
                 {matchProps.slice(0, 12).map(proj => {
                   const overSelId = `${proj.prop_id}_OVER`;
                   const underSelId = `${proj.prop_id}_UNDER`;
-                  const isOverSel = ticketSelections.some(s => s.selection_id === overSelId || s.event_id.includes(overSelId));
-                  const isUnderSel = ticketSelections.some(s => s.selection_id === underSelId || s.event_id.includes(underSelId));
+                  const isOverSel = ticketSelections.some(s => s.selection_id === overSelId || s.event_id === `${event.event_id}__${overSelId}`);
+                  const isUnderSel = ticketSelections.some(s => s.selection_id === underSelId || s.event_id === `${event.event_id}__${underSelId}`);
 
                   const isOverPos = (proj.over_option?.ev_percent || 0) > 0;
                   const isUnderPos = (proj.under_option?.ev_percent || 0) > 0;

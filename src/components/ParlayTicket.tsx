@@ -2,7 +2,7 @@
 import API_BASE from '@/lib/api';
 
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { TicketIcon, ZapIcon, AlertIcon, ExternalLinkIcon, SaveIcon, CheckIcon, RefreshIcon } from './Icons';
 
 type TicketSelection = {
@@ -70,6 +70,12 @@ export default function ParlayTicket({
   const [result, setResult]           = useState<any>(null);
   const [savedStatus, setSavedStatus] = useState<string | null>(null);
   const [userBetStake, setUserBetStake] = useState<number>(100);
+
+  // Reset evaluation result when selections change so user only sees evaluation after clicking button
+  useEffect(() => {
+    setResult(null);
+    setSavedStatus(null);
+  }, [selections]);
 
   const hasNegativeEV = selections.some(s => s.ev_percent < 0);
 
