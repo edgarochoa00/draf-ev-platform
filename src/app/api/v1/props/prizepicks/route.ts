@@ -48,7 +48,8 @@ export async function GET(request: Request) {
 
   const players = STAR_PLAYERS_MAP[sportKey] || STAR_PLAYERS_MAP.NBA;
 
-  const props = players.map((p) => {
+  const props = players.map((p, idx) => {
+    const propId = `pp_${sportParam.toLowerCase()}_${idx + 1}`;
     const seed = `${p.name}_${p.stat}_${p.line}`;
     const probOver = deterministicProb(`${seed}_over`);
     const probUnder = Number((1.0 - probOver).toFixed(4));
@@ -56,14 +57,38 @@ export async function GET(request: Request) {
     const evOver = Number(((probOver * 1.91 - 1) * 100).toFixed(1));
     const evUnder = Number(((probUnder * 1.91 - 1) * 100).toFixed(1));
 
+    const overOpt = {
+      selection_id: `${propId}_OVER`,
+      label: `Más de ${p.line}`,
+      abbrev: `OVER ${p.line}`,
+      decimal_odds: 1.91,
+      model_prob: probOver,
+      ev_percent: evOver,
+    };
+
+    const underOpt = {
+      selection_id: `${propId}_UNDER`,
+      label: `Menos de ${p.line}`,
+      abbrev: `UNDER ${p.line}`,
+      decimal_odds: 1.91,
+      model_prob: probUnder,
+      ev_percent: evUnder,
+    };
+
     return {
-      player_id: seed,
+      prop_id: propId,
+      player_id: propId,
       player_name: p.name,
+      player_position: p.team,
       team: p.team,
+      player_image: p.avatar,
       avatar: p.avatar,
       sport: sportParam,
       stat_type: p.stat,
+      line_value: p.line,
       line_score: p.line,
+      over_option: overOpt,
+      under_option: underOpt,
       over_odds: 1.91,
       under_odds: 1.91,
       prob_over: probOver,

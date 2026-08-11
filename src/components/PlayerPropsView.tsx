@@ -97,19 +97,24 @@ export default function PlayerPropsView({ selectedPicks, onTogglePick }: PlayerP
   };
 
   const handleSelectOption = (proj: any, isOver: boolean) => {
-    const opt = isOver ? proj.over_option : proj.under_option;
-    const selId = `${proj.prop_id}_${isOver ? 'OVER' : 'UNDER'}`;
+    const opt = (isOver ? proj.over_option : proj.under_option) || {
+      label: isOver ? `Más de ${proj.line_value || proj.line_score || 0}` : `Menos de ${proj.line_value || proj.line_score || 0}`,
+      decimal_odds: proj.over_odds || 1.91,
+      model_prob: isOver ? (proj.prob_over || 0.55) : (proj.prob_under || 0.45),
+      ev_percent: isOver ? (proj.ev_over || 10) : (proj.ev_under || -10),
+    };
+    const selId = `${proj.prop_id || proj.player_id}_${isOver ? 'OVER' : 'UNDER'}`;
     const selName = `${proj.player_name} (${opt.label}) - ${proj.stat_type}`;
 
     onTogglePick({
       selection_id: selId,
-      event_id: proj.prop_id,
+      event_id: proj.prop_id || proj.player_id,
       sport: proj.sport || activeSport,
-      match_name: `${proj.player_name} [${proj.team}]`,
+      match_name: `${proj.player_name} [${proj.team || 'Prop'}]`,
       selection_name: selName,
-      decimal_odds: opt.decimal_odds,
-      model_prob: opt.model_prob,
-      ev_percent: opt.ev_percent,
+      decimal_odds: opt.decimal_odds || 1.91,
+      model_prob: opt.model_prob || 0.55,
+      ev_percent: opt.ev_percent || 0,
     });
   };
 
@@ -266,14 +271,14 @@ export default function PlayerPropsView({ selectedPicks, onTogglePick }: PlayerP
                     }}
                   >
                     <span style={{ fontSize: '0.75rem', fontWeight: 800, color: isOverActive ? '#10B981' : 'var(--text-muted)' }}>
-                      MÁS DE {proj.line_value}
+                      MÁS DE {proj.line_value || proj.line_score}
                     </span>
                     <span style={{ fontSize: '1.1rem', fontWeight: 900, color: '#FFF' }}>
-                      {proj.over_option.decimal_odds}x
+                      {(proj.over_option?.decimal_odds || proj.over_odds || 1.91).toFixed(2)}x
                     </span>
-                    {proj.over_option.ev_percent > 0 && (
+                    {(proj.over_option?.ev_percent ?? proj.ev_over ?? 0) > 0 && (
                       <span style={{ fontSize: '0.68rem', fontWeight: 800, color: '#10B981', background: 'rgba(16,185,129,0.15)', padding: '2px 6px', borderRadius: '4px' }}>
-                        +{proj.over_option.ev_percent}% EV
+                        +{(proj.over_option?.ev_percent ?? proj.ev_over ?? 0).toFixed(1)}% EV
                       </span>
                     )}
                   </button>
@@ -295,14 +300,14 @@ export default function PlayerPropsView({ selectedPicks, onTogglePick }: PlayerP
                     }}
                   >
                     <span style={{ fontSize: '0.75rem', fontWeight: 800, color: isUnderActive ? '#10B981' : 'var(--text-muted)' }}>
-                      MENOS DE {proj.line_value}
+                      MENOS DE {proj.line_value || proj.line_score}
                     </span>
                     <span style={{ fontSize: '1.1rem', fontWeight: 900, color: '#FFF' }}>
-                      {proj.under_option.decimal_odds}x
+                      {(proj.under_option?.decimal_odds || proj.under_odds || 1.91).toFixed(2)}x
                     </span>
-                    {proj.under_option.ev_percent > 0 && (
+                    {(proj.under_option?.ev_percent ?? proj.ev_under ?? 0) > 0 && (
                       <span style={{ fontSize: '0.68rem', fontWeight: 800, color: '#10B981', background: 'rgba(16,185,129,0.15)', padding: '2px 6px', borderRadius: '4px' }}>
-                        +{proj.under_option.ev_percent}% EV
+                        +{(proj.under_option?.ev_percent ?? proj.ev_under ?? 0).toFixed(1)}% EV
                       </span>
                     )}
                   </button>
