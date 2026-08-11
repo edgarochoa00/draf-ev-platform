@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.env
+venv/
+.venv/
+*.pyo
+*.pyc
+
+# Next.js / Node
+frontend/node_modules/
+frontend/.next/
+frontend/.turbo/
+frontend/dist/
+frontend/build/
+frontend/.env.local
+frontend/.env*.local
+node_modules/
+
+# DB & misc
+*.db
+*.sqlite3
+*.log
+.DS_Store
+.idea/
+.vscode/
+
+# Training data (large files)
+codigo_entrenamiento_parleys/
+prueba-dde32-firebase-adminsdk-fbsvc-aeb12f9889.json
