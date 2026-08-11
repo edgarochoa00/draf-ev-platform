@@ -287,13 +287,15 @@ export default function MatchDetailModal({
                       {/* Top Player Info */}
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                         <div style={{ width: '42px', height: '42px', borderRadius: '50%', overflow: 'hidden', background: '#18181C', flexShrink: 0, border: '1px solid rgba(255,255,255,0.1)' }}>
-                          {proj.player_image ? (
-                            <img src={proj.player_image} alt={proj.player_name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                          ) : (
-                            <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#FFF', fontWeight: 800 }}>
-                              {proj.player_name.slice(0, 2).toUpperCase()}
-                            </div>
-                          )}
+                          <img 
+                            src={proj.player_image || proj.avatar || proj.player_avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(proj.player_name)}&background=18181C&color=7C3AED&bold=true`} 
+                            alt={proj.player_name} 
+                            referrerPolicy="no-referrer"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(proj.player_name)}&background=18181C&color=7C3AED&bold=true`;
+                            }}
+                            style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                          />
                         </div>
                         <div style={{ flex: 1, minWidth: 0 }}>
                           <div style={{ fontSize: '0.9rem', fontWeight: 800, color: '#FFF', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>

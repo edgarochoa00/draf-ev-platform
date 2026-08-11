@@ -68,11 +68,20 @@ export async function GET(request: Request) {
     const evOver = Number(((probOver * 1.91 - 1) * 100).toFixed(1));
     const evUnder = Number(((probUnder * 1.91 - 1) * 100).toFixed(1));
 
+    const avatarUrl = sport === 'MLB' 
+      ? 'https://a.espncdn.com/i/headshots/mlb/players/full/39832.png'
+      : sport === 'NBA'
+      ? 'https://a.espncdn.com/i/headshots/nba/players/full/1966.png'
+      : 'https://a.espncdn.com/i/headshots/soccer/players/full/45843.png';
+
     props.push({
+      prop_id: seed,
       player_id: seed,
       player_name: player.name,
       team: player.team,
-      avatar: 'https://a.espncdn.com/i/headshots/soccer/players/full/45843.png',
+      player_image: avatarUrl,
+      avatar: avatarUrl,
+      player_avatar: avatarUrl,
       sport: sport,
       stat_type: statName,
       line_score: lineVal,

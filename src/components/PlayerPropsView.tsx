@@ -216,13 +216,15 @@ export default function PlayerPropsView({ selectedPicks, onTogglePick }: PlayerP
                 {/* Header: Image & Badges */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                   <div style={{ position: 'relative', width: '56px', height: '56px', borderRadius: '50%', overflow: 'hidden', background: '#18181C', border: '2px solid rgba(255,255,255,0.15)', flexShrink: 0 }}>
-                    {proj.player_image ? (
-                      <img src={proj.player_image} alt={proj.player_name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    ) : (
-                      <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#FFF', fontWeight: 800 }}>
-                        {proj.player_name.slice(0, 2).toUpperCase()}
-                      </div>
-                    )}
+                    <img 
+                      src={proj.player_image || proj.avatar || proj.player_avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(proj.player_name)}&background=18181C&color=7C3AED&bold=true`} 
+                      alt={proj.player_name} 
+                      referrerPolicy="no-referrer"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(proj.player_name)}&background=18181C&color=7C3AED&bold=true`;
+                      }}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                    />
                   </div>
 
                   <div style={{ flex: 1, minWidth: 0 }}>
