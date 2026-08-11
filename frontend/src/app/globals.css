@@ -1,0 +1,695 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  /* ── DRAF Exact Dark Palette ── */
+  --bg-dark: #09090B;
+  --bg-card: #121215;
+  --bg-card-hover: #18181D;
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border-active: #7C3AED;
+  
+  /* ── DRAF Brand Purple & Accents ── */
+  --draf-purple: #7C3AED;           /* Active Purple */
+  --draf-purple-glow: rgba(124, 58, 237, 0.35);
+  --draftea-purple: #7C3AED;        /* Fallback alias */
+  --draftea-purple-glow: rgba(124, 58, 237, 0.35);
+  --ev-positive: #00F59B;           /* Cyber Mint */
+  --ev-negative: #FF4D6D;           /* Crimson */
+  --accent-cyan: #00F2FE;
+  
+  --text-primary: #FFFFFF;
+  --text-secondary: #A1A1AA;
+  --text-muted: #71717A;
+  
+  --font-main: 'Outfit', 'Inter', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  font-family: var(--font-main);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Site Header & Responsive Navbar ── */
+.site-header {
+  border-bottom: 1px solid var(--glass-border);
+  background: rgba(7, 9, 14, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  width: 100%;
+}
+
+.site-header-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.navbar-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.navbar-logo-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #00F59B 0%, #00F2FE 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 15px rgba(0, 245, 155, 0.35);
+  flex-shrink: 0;
+}
+
+.navbar-title-block .navbar-brand-name {
+  font-size: 1.15rem;
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+  color: #FFFFFF;
+}
+
+.navbar-brand-name .highlight-ev {
+  color: var(--ev-positive);
+}
+
+.navbar-brand-sub {
+  font-size: 0.62rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-weight: 600;
+}
+
+/* Bankroll Widget */
+.navbar-bankroll-widget {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: linear-gradient(135deg, rgba(10, 14, 23, 0.9), rgba(15, 23, 42, 0.9));
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 245, 155, 0.25);
+  box-shadow: 0 0 12px rgba(0, 245, 155, 0.1);
+  flex-shrink: 0;
+}
+
+.bankroll-label {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.bankroll-currency {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--ev-positive);
+}
+
+.bankroll-input {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.85rem;
+  width: 55px;
+  outline: none;
+  font-family: var(--font-main);
+}
+
+.bankroll-suffix {
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+  font-weight: 700;
+}
+
+/* Horizontal Scroll Tabs Navigation */
+.navbar-nav-scroll {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 3px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 30px;
+  border: 1px solid var(--glass-border);
+  width: 100%;
+}
+
+.navbar-nav-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.nav-chip {
+  flex-shrink: 0;
+  border: none !important;
+  font-size: 0.78rem !important;
+  padding: 6px 14px !important;
+  border-radius: 20px !important;
+}
+
+.ocr-chip {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(236, 72, 153, 0.25)) !important;
+  color: #E0E7FF !important;
+}
+
+@media (min-width: 768px) {
+  .site-header-inner {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 24px;
+  }
+  
+  .navbar-top-row {
+    width: auto;
+  }
+  
+  .navbar-nav-scroll {
+    width: auto;
+    overflow-x: visible;
+  }
+  
+  .navbar-logo-icon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .navbar-title-block .navbar-brand-name {
+    font-size: 1.25rem;
+  }
+  
+  .bankroll-input {
+    width: 75px;
+  }
+}
+
+/* ── Main App Container & Responsiveness ── */
+.main-app-container {
+  flex: 1;
+  padding: 16px 14px;
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  .main-app-container {
+    padding: 32px 24px;
+  }
+}
+
+.hero-title {
+  font-size: clamp(1.3rem, 5vw, 2.1rem);
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  margin-bottom: 6px;
+  color: #FFFFFF;
+  line-height: 1.2;
+}
+
+.hero-subtitle {
+  color: var(--text-secondary);
+  font-size: clamp(0.82rem, 2.5vw, 0.92rem);
+  line-height: 1.45;
+}
+
+/* ── Glassmorphism Panels ── */
+.glass-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: 22px;
+  padding: 20px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.glass-panel:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* ── Radar Card Responsive Layout ── */
+.radar-card-main-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 14px;
+  width: 100%;
+  min-width: 0;
+}
+
+.radar-card-teams-col {
+  flex: 1 1 200px;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.radar-card-odds-col {
+  flex: 1 1 280px;
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
+}
+
+.draf-odds-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+@media (max-width: 640px) {
+  .radar-card-main-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+  }
+  
+  .radar-card-teams-col, .radar-card-odds-col {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+}
+
+/* ── DRAF Odds Button Tiles (1.46x) ── */
+.draftea-odds-button, .draf-odds-button {
+  background: #1C1C22;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 8px 4px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-align: center;
+}
+
+.draftea-odds-button:hover, .draf-odds-button:hover {
+  background: #25252C;
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.draftea-odds-button.selected, .draf-odds-button.selected {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.35), rgba(124, 58, 237, 0.15));
+  border: 2px solid var(--draf-purple);
+  box-shadow: 0 0 20px var(--draf-purple-glow);
+}
+
+.draftea-odds-button .odds-abbrev, .draf-odds-button .odds-abbrev {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  width: 100%;
+  display: block;
+}
+
+.draftea-odds-button .odds-multiplier, .draf-odds-button .odds-multiplier {
+  font-size: clamp(0.85rem, 3.2vw, 1.15rem);
+  font-weight: 800;
+  color: #FFFFFF;
+  letter-spacing: -0.3px;
+  white-space: nowrap;
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+.draftea-odds-button.selected .odds-abbrev, .draf-odds-button.selected .odds-abbrev {
+  color: #E9D5FF;
+}
+
+.draftea-odds-button.selected .odds-multiplier, .draf-odds-button.selected .odds-multiplier {
+  color: #FFFFFF;
+}
+
+/* ── Modal Responsive & Versus Arena Styles ── */
+.modal-card-content {
+  max-width: 780px;
+  width: 100%;
+  max-height: 92vh;
+  overflow-y: auto;
+  padding: 16px 14px;
+  background: #09090B;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.95);
+  box-sizing: border-box;
+}
+
+@media (min-width: 640px) {
+  .modal-card-content {
+    padding: 24px 28px;
+  }
+}
+
+.modal-vs-arena {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+  margin-bottom: 20px;
+}
+
+.modal-team-block {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.modal-team-block.home {
+  justify-content: flex-end;
+}
+
+.modal-team-block.away {
+  justify-content: flex-start;
+}
+
+.modal-team-name {
+  font-size: clamp(0.8rem, 3.2vw, 1.15rem);
+  font-weight: 800;
+  color: #FFFFFF;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.modal-team-logo-wrapper {
+  position: relative;
+  width: clamp(34px, 10vw, 50px);
+  height: clamp(34px, 10vw, 50px);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(0,0,0,0) 70%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.modal-team-logo-img {
+  width: 80%;
+  height: 80%;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.modal-team-logo-placeholder {
+  width: 80%;
+  height: 80%;
+  border-radius: 50%;
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.modal-team-logo-placeholder.blue { background: #3B82F6; }
+.modal-team-logo-placeholder.purple { background: #8B5CF6; }
+
+.modal-vs-badge {
+  font-size: 0.9rem;
+  font-weight: 900;
+  color: #FFFFFF;
+  letter-spacing: 1px;
+  padding: 0 4px;
+  flex-shrink: 0;
+}
+
+.modal-category-tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  width: 100%;
+}
+
+.modal-category-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.modal-category-tabs .category-tab-pill {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* ── DRAF Match Switcher Pills Bar ── */
+.match-switcher-bar {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 6px 0 14px 0;
+  margin-bottom: 20px;
+}
+
+.match-switcher-pill {
+  background: #18181B;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 30px;
+  padding: 8px 18px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.match-switcher-pill:hover {
+  background: #27272A;
+  color: #fff;
+}
+
+.match-switcher-pill.active {
+  background: var(--draf-purple);
+  border-color: var(--draf-purple);
+  color: #FFFFFF;
+  box-shadow: 0 4px 20px var(--draf-purple-glow);
+}
+
+/* ── Category Filter Pills & Chips ── */
+.category-tab-pill, .chip {
+  background: #18181B;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 30px;
+  padding: 8px 20px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--text-secondary);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.category-tab-pill:hover, .chip:hover {
+  background: #27272A;
+  color: #fff;
+}
+
+.category-tab-pill.active, .chip.active {
+  background: var(--draf-purple);
+  border-color: var(--draf-purple);
+  color: #FFFFFF;
+  box-shadow: 0 4px 18px var(--draf-purple-glow);
+}
+
+/* ── Inputs & Buttons ── */
+.glass-input {
+  background: #18181C;
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  color: #fff;
+  padding: 12px 16px;
+  font-family: var(--font-main);
+  font-size: 0.9rem;
+  outline: none;
+  width: 100%;
+  transition: all 0.2s ease;
+}
+
+.glass-input:focus {
+  border-color: var(--draf-purple);
+  box-shadow: 0 0 15px var(--draf-purple-glow);
+}
+
+.glass-button {
+  background: #18181C;
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  color: var(--text-primary);
+  padding: 12px 20px;
+  font-family: var(--font-main);
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.glass-button:hover {
+  background: #27272A;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.glass-button.purple-glow {
+  background: var(--draf-purple);
+  border: none;
+  color: #FFFFFF;
+  box-shadow: 0 4px 20px var(--draf-purple-glow);
+}
+
+.glass-button.purple-glow:hover {
+  box-shadow: 0 6px 25px rgba(124, 58, 237, 0.6);
+  filter: brightness(1.1);
+}
+
+.glass-button.cyber-green {
+  background: linear-gradient(135deg, #00F59B 0%, #00D078 100%);
+  border: none;
+  color: #09090B;
+  font-weight: 800;
+  box-shadow: 0 4px 20px rgba(0, 245, 155, 0.35);
+}
+
+.glass-button.cyber-green:hover {
+  box-shadow: 0 6px 25px rgba(0, 245, 155, 0.55);
+}
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.badge.draftea-badge, .badge.draf-badge {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
+}
+
+.badge.positive {
+  background: rgba(0, 245, 155, 0.12);
+  color: var(--ev-positive);
+  border: 1px solid rgba(0, 245, 155, 0.3);
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(12px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  padding: 24px 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.dashboard-grid > * {
+  min-width: 0;
+}
+
+@media (min-width: 960px) {
+  .dashboard-grid {
+    grid-template-columns: 1.85fr 1.15fr;
+  }
+}
